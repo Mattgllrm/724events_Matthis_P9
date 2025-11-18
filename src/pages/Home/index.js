@@ -13,7 +13,14 @@ import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
 const Page = () => {
-  const {last} = useData()
+ // const {last} = useData()     // Code de Base
+ const { data } = useData();       // récupérer tout le JSON
+ const events = data?.events || []; // récupérer uniquement le tableau des events
+ const last = events.length > 0
+  ? events.slice().sort((a, b) => new Date(b.date) - new Date(a.date))[0]
+  : null;
+  // eslint-disable-next-line no-console
+console.log("Dernier événement :", last);
   return <>
     <header>
       <Menu />
@@ -22,7 +29,7 @@ const Page = () => {
       <section className="SliderContainer">
         <Slider />
       </section>
-      <section className="ServicesContainer">
+      <section id="nos-services" className="ServicesContainer">
         <h2 className="Title">Nos services</h2>
         <p>Nous organisons des événements sur mesure partout dans le monde</p>
         <div className="ListContainer">
@@ -51,11 +58,11 @@ const Page = () => {
           </ServiceCard>
         </div>
       </section>
-      <section className="EventsContainer">
+      <section id="nos-realisations" className="EventsContainer">
         <h2 className="Title">Nos réalisations</h2>
         <EventList />
       </section>
-      <section className="PeoplesContainer">
+      <section id="notre-equipe" className="PeoplesContainer">
         <h2 className="Title">Notre équipe</h2>
         <p>Une équipe d’experts dédiés à l’ogranisation de vos événements</p>
         <div className="ListContainer">
@@ -114,16 +121,58 @@ const Page = () => {
       </div>
     </main>
     <footer className="row">
-      <div className="col presta">
-        <h3>Notre derniére prestation</h3>
-        <EventCard
-          imageSrc={last?.cover}
-          title={last?.title}
-          date={new Date(last?.date)}
-          small
-          label="boom"
-        />
-      </div>
+        <div className="col presta">
+  <h3>Notre derniére prestation</h3>
+  {last && (
+    <Modal
+      Content={
+        <div className="ModalEvent">
+          <div className="ModalEvent__imageContainer">
+            <img src={last.cover} alt={last.title} />
+          </div>
+          <div className="ModalEvent__title">
+  <span>{last.title}</span>{" "}
+  <span className="ModalEvent__periode">{last.periode}</span>
+</div>
+          <div className="ModalEvent__descriptionContainer">
+            <h3>Description</h3>
+            <p className="ModalEvent__description">{last.description}</p>
+
+            <h3>Participants</h3>
+            <p className="ModalEvent__participants">{last.nb_guesses} participants</p>
+
+            <h3>Prestations</h3>
+            <div className="ModalEvent__prestations">
+              {last.prestations.map((item) => (
+                <p key={item}>{item}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      }
+    >
+      {({ setIsOpened }) => (
+        <div
+          className="EventCard--clickable"
+          onClick={() => setIsOpened(true)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") setIsOpened(true);
+          }}
+          role="button"
+          tabIndex={0}
+        >
+          <EventCard
+            imageSrc={last.cover}
+            title={last.title}
+            date={new Date(last.date)}
+            small
+            label={last?.type}
+          />
+        </div>
+      )}
+    </Modal>
+  )}
+</div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
         <address>45 avenue de la République, 75000 Paris</address>

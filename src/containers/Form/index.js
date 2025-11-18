@@ -16,6 +16,7 @@ const Form = ({ onSuccess, onError }) => {
       try {
         await mockContactApi();
         setSending(false);
+         onSuccess();                           //  j'ajoute cette ligne
       } catch (err) {
         setSending(false);
         onError(err);
@@ -37,9 +38,14 @@ const Form = ({ onSuccess, onError }) => {
             titleEmpty
           />
           <Field placeholder="" label="Email" />
-          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
-            {sending ? "En cours" : "Envoyer"}
+         <Button
+            type={BUTTON_TYPES.SUBMIT}
+            disabled={sending}
+            data-testid="button-test-id" // ajout de cette ligne
+            >
+           {sending ? "En cours" : "Envoyer"}
           </Button>
+
         </div>
         <div className="col">
           <Field
@@ -49,7 +55,7 @@ const Form = ({ onSuccess, onError }) => {
           />
         </div>
       </div>
-    </form>
+    </form> 
   );
 };
 
