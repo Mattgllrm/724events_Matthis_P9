@@ -16,7 +16,7 @@ const Form = ({ onSuccess, onError }) => {
       try {
         await mockContactApi();
         setSending(false);
-         onSuccess();                           //  j'ajoute cette ligne
+         onSuccess();                           //  Ajout de onSuccess
       } catch (err) {
         setSending(false);
         onError(err);
@@ -41,7 +41,7 @@ const Form = ({ onSuccess, onError }) => {
          <Button
             type={BUTTON_TYPES.SUBMIT}
             disabled={sending}
-            data-testid="button-test-id" // ajout de cette ligne
+            data-testid="button-test-id" // ajout 
             >
            {sending ? "En cours" : "Envoyer"}
           </Button>
