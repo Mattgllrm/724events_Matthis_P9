@@ -12,13 +12,11 @@ const Slider = () => {
       new Date(evtA.date) < new Date(evtB.date) ? -1 : 1
     )
   : [];
-
  const nextCard = () => {
   setIndex((prev) =>
     prev < byDateDesc.length - 1 ? prev + 1 : 0   // ajout d'un -1 pour effacer slide fantome
   );
 };
-
  useEffect(() => {
   if (byDateDesc.length === 0) {
     return undefined;   // Eslint
@@ -56,7 +54,7 @@ const Slider = () => {
             <div className="SlideCard__pagination">
               {byDateDesc.map((slide, radioIdx) => (    /* rajout de slide et ajout radioIdx pour point slider */
                 <input
-                  key={`${slide.title}-${slide.date}`}  /* clé unique pour chaque input */
+                  key={`${slide.title}-${slide.date}`}  /* clé unique pour chaque input, de base on a : key={`${event.id}`} */
                   type="radio"
                   name={`radio-button-${idx}`}        /*  nom unique par slider pour éviter collisions, point rouge */
                   checked={radioIdx === index}

@@ -14,22 +14,6 @@ const EventList = () => {
   const [type, setType] = useState();
   const [currentPage, setCurrentPage] = useState(1);
 
-/*                                      // Code avant modif : 
-  const filteredEvents = (
-    (!type
-      ? data?.events
-      : data?.events) || []
-  ).filter((event, index) => {
-    if (
-      (currentPage - 1) * PER_PAGE <= index &&
-      PER_PAGE * currentPage > index
-    ) {
-      return true;
-    }
-    return false;
-  });
-*/
-
 // Nouveau code
 // Filtre par type si type est défini, sinon prend tous les events
 const eventsByType = !type
@@ -44,8 +28,6 @@ const filteredEvents = eventsByType.filter(
 
   
   const changeType = (evtType) => {
-    // eslint-disable-next-line no-console
-     console.log("Selected type:", evtType);
     setCurrentPage(1);
     setType(evtType);
   };

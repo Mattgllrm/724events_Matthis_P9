@@ -41,7 +41,7 @@ const Form = ({ onSuccess, onError }) => {
          <Button
             type={BUTTON_TYPES.SUBMIT}
             disabled={sending}
-            data-testid="button-test-id" // ajout 
+            data-testid="button-test-id"
             >
            {sending ? "En cours" : "Envoyer"}
           </Button>
